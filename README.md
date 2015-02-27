@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # puppetserver_whitelist
 
 #### Table of Contents
@@ -77,3 +78,7 @@ know what the ground rules for contributing are.
 If you aren't using changelog, put your release notes here (though you should
 consider using changelog). You may also add any additional sections you feel are
 necessary or important to include here. Please use the `## ` header.
+=======
+# Puppetserver_whitelist
+Add Certificates To PuppetServer Whitelist
+>>>>>>> abdc5a3197336de43f44d4bb3927ace18105ea42
