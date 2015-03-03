@@ -62,8 +62,8 @@ In the form:
  
 client-whitelist: [ <%= @console_client_certname %>, examplecert1.com, examplecert2.com ]
  
-Separate the certificate FQDNs with a comma, and remember to leave 
-a trailing space.
+Separate the certificate FQDNs with a comma, and a following space, and remember to leave 
+a trailing space before the closing square bracket.
  
 It is important NOT to remove the Ruby class variable: <%= @console_client_certname %>
  
