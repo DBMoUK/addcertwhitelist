@@ -43,7 +43,7 @@ puppetserver/ca.conf.erb
 
 Firstly, add certificate FQDN names to the template:
 
-addcertwhitelist/templates/ca.conf.erb
+addcertwhitelist/files/ca.conf.erb
 
 In the form:
 
@@ -52,9 +52,6 @@ client-whitelist: [ <%= @console_client_certname %>, examplecert1.com, examplece
 Separate the certificate FQDNs with a comma and a following space.
 
 It is important NOT to remove the Ruby class variable: <%= @console_client_certname %>
-
-Copy the template file in addcertwhitelist/templates/ca.conf.erb to 
-addcertwhitelist/files/ca.conf.erb after editing.
 
 Apply the class using:
 
@@ -67,17 +64,15 @@ before updaing the certificate whitelist.
 
 ### Beginning with addcertwhitelist
 
-The very basic steps needed for a user to get the module up and running.
+Clone the repository:
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+https://github.com/DBMoUK/addcertwhitelist.git
 
 ## Usage
 
 Firstly, add certificate FQDN names to the template:
  
-addcertwhitelist/templates/ca.conf.erb
+addcertwhitelist/files/ca.conf.erb
  
 In the form:
  
@@ -86,9 +81,6 @@ client-whitelist: [ <%= @console_client_certname %>, examplecert1.com, examplece
 Separate the certificate FQDNs with a comma and a following space.
  
 It is important NOT to remove the Ruby class variable: <%= @console_client_certname %>
- 
-Copy the template file in addcertwhitelist/templates/ca.conf.erb to 
-addcertwhitelist/files/ca.conf.erb after editing.
  
 Apply the class using:
  
@@ -107,6 +99,10 @@ Class: addcertwhitelist/init.pp
 ## Limitations
 
 This module tested with CentOS 6.5x64 / Puppet Enterprise 3.7.0
+
+If you Upgrade Puppet Enterprise on your Puppet Master nodes, you must 
+reapply this class post-upgrade to your Puppet Master nodes as the
+source template will be overwritten via the upgrade.
 
 ## Development
 
