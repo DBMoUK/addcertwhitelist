@@ -41,26 +41,10 @@ puppetserver/ca.conf.erb
 
 ## This module should NOT be used to classify a Puppet Master.
 
-Firstly, add certificate FQDN names to the template:
-
-addcertwhitelist/files/ca.conf.erb
-
-In the form:
-
-client-whitelist: [ <%= @console_client_certname %>, examplecert1.com, examplecert2.com ]
-
-Separate the certificate FQDNs with a comma and a following space.
-
-It is important NOT to remove the Ruby class variable: <%= @console_client_certname %>
-
-Apply the class using:
-
-puppet apply addcertwhitelist/tests/init.pp
-
 ### Setup Requirements 
 
 Take the Puppet Master you wish to update out of its Load Balancer pool 
-before updaing the certificate whitelist.
+before updating the certificate whitelist.
 
 ### Beginning with addcertwhitelist
 
@@ -78,7 +62,8 @@ In the form:
  
 client-whitelist: [ <%= @console_client_certname %>, examplecert1.com, examplecert2.com ]
  
-Separate the certificate FQDNs with a comma and a following space.
+Separate the certificate FQDNs with a comma, and remember to leave 
+a trailing space.
  
 It is important NOT to remove the Ruby class variable: <%= @console_client_certname %>
  
@@ -100,9 +85,9 @@ Class: addcertwhitelist/init.pp
 
 This module tested with CentOS 6.5x64 / Puppet Enterprise 3.7.0
 
-If you Upgrade Puppet Enterprise on your Puppet Master nodes, you must 
-reapply this class post-upgrade to your Puppet Master nodes as the
-source template will be overwritten via the upgrade.
+## If you Upgrade Puppet Enterprise on your Puppet Master nodes, you must 
+## reapply this class post-upgrade to your Puppet Master nodes as the
+## source template will be overwritten via the upgrade.
 
 ## Development
 
