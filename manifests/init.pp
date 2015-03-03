@@ -1,15 +1,15 @@
-class puppetserver_whitelist ( $cert_fqdn_names )
+class addcertwhitelist
 {
-  $templatepath           = '/opt/puppet/share/puppet/modules/puppet_enterprise/templates/master/puppetserver'
-  $puppetserver_file_path = '/etc/puppetlabs/puppetserver/conf.d'
-  $dashboard_fqdn = 'pe-internal-dashboard'
+  $templatepath             = '/opt/puppet/share/puppet/modules/puppet_enterprise/templates/master/puppetserver'
+  $puppetserver_file_path   = '/etc/puppetlabs/puppetserver/conf.d'
+  $console_client_certname  = 'pe-internal-dashboard'
 
   file { "${templatepath}/ca.conf.erb":
     ensure => file,
     owner  => 'pe-puppet',
     group  => 'pe-puppet',
     mode   => '0444',
-    source => 'puppet:///modules/puppetserver_whitelist/ca.conf.erb',
+    source => 'puppet:///modules/addcertwhitelist/ca.conf.erb',
     before => File["${puppetserver_file_path}/ca.conf"],
   }
 
@@ -18,8 +18,8 @@ class puppetserver_whitelist ( $cert_fqdn_names )
     owner   => 'pe-puppet',
     group   => 'pe-puppet',
     mode    => '0640',
-    content => template('puppetserver_whitelist/ca.conf.erb'),
-    before  => Exec['restart-puppetserver'],
+    content => template('addcertwhitelist/ca.conf.erb'),
+    notify  => Exec['restart-puppetserver'],
   }
 
 
@@ -27,7 +27,6 @@ class puppetserver_whitelist ( $cert_fqdn_names )
     path        => '/sbin',
     command     => 'service pe-puppetserver restart',
     refreshonly => true,
-    subscribe   => File["${templatepath}/ca.conf.erb"],
   }
 }
 
