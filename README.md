@@ -72,9 +72,10 @@ Apply the class using:
 puppet apply addcertwhitelist/tests/init.pp
 
 
-When the Puppetserver daemon has restarted, the Master may be checked
-by invoking an agent run with: puppet agent -t and then placed back in
-a load balancer pool.
+After the class has been applied to the 
+Puppet Master [either CA or Compile Master], run puppet agent -t
+confirm successful run and then re-add the Master to the Load Balancer
+pool, if one is in use.
 
 
 ## Reference
