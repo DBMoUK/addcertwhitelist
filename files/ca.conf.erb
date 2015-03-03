@@ -1,0 +1,11 @@
+certificate-authority: {
+    certificate-status: {
+        client-whitelist: [ 
+        <%= @dashboard_fqdn -%> 
+        <% @cert_fqdn_names.each do |fqdn_name| -%>
+          <%= fqdn_name.chomp %>
+        <% end -%> 
+        ]
+    }
+}
+

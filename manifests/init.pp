@@ -1,41 +1,34 @@
-# == Class: puppetserver_whitelist
-#
-# Full description of class puppetserver_whitelist here.
-#
-# === Parameters
-#
-# Document parameters here.
-#
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
-#
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
-#
-# === Examples
-#
-#  class { 'puppetserver_whitelist':
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
-#
-# === Authors
-#
-# Author Name <author@domain.com>
-#
-# === Copyright
-#
-# Copyright 2015 Your name here, unless otherwise noted.
-#
-class puppetserver_whitelist {
+class puppetserver_whitelist ( $cert_fqdn_names )
+{
+  $templatepath           = '/opt/puppet/share/puppet/modules/puppet_enterprise/templates/master/puppetserver'
+  $puppetserver_file_path = '/etc/puppetlabs/puppetserver/conf.d'
+  $dashboard_fqdn = 'pe-internal-dashboard'
+
+  file { "${templatepath}/ca.conf.erb":
+    ensure => file,
+    owner  => 'pe-puppet',
+    group  => 'pe-puppet',
+    mode   => '0444',
+    source => 'puppet:///modules/puppetserver_whitelist/ca.conf.erb',
+    before => File["${puppetserver_file_path}/ca.conf"],
+  }
+
+  file { "${puppetserver_file_path}/ca.conf":
+    ensure  => file,
+    owner   => 'pe-puppet',
+    group   => 'pe-puppet',
+    mode    => '0640',
+    content => template('puppetserver_whitelist/ca.conf.erb'),
+    before  => Exec['restart-puppetserver'],
+  }
 
 
+  exec {'restart-puppetserver':
+    path        => '/sbin',
+    command     => 'service pe-puppetserver restart',
+    refreshonly => true,
+    subscribe   => File["${templatepath}/ca.conf.erb"],
+  }
 }
+
+

@@ -1,14 +1,14 @@
-<<<<<<< HEAD
-# puppetserver_whitelist
+
+# addcertwhitelist 
 
 #### Table of Contents
 
 1. [Overview](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with puppetserver_whitelist](#setup)
-    * [What puppetserver_whitelist affects](#what-puppetserver_whitelist-affects)
+3. [Setup - The basics of getting started with addcertwhitelist](#setup)
+    * [What addcertwhitelist affects](#what-addcertwhitelist-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with puppetserver_whitelist](#beginning-with-puppetserver_whitelist)
+    * [Beginning with addcertwhitelist](#beginning-with-addcert_whitelist)
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
@@ -16,35 +16,56 @@
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+This module allows the whitelisting of one or more certificates against the
+Puppet Master /production/certificate_status/ endpoint.
+
+The module patches the default template for:
+/etc/puppetlabs/puppetserver/conf/ca.conf
+
+It affects /opt/puppet/share/puppet/modules/puppet_enterprise/templates/
+master/puppetserver/ca.conf.erb
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
+The module patches the template used to generate:
+/etc/puppetlabs/puppetserver/conf/ca.conf
 
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
+The affected template is:
+/opt/puppet/share/puppet/modules/puppet_enterprise/templates/master/
+puppetserver/ca.conf.erb
 
 ## Setup
 
-### What puppetserver_whitelist affects
+## Please Read and Follow These Instructions Carefully!
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
 
-### Setup Requirements **OPTIONAL**
+## This module should NOT be used to classify a Puppet Master.
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
+Firstly, add certificate FQDN names to the template:
 
-### Beginning with puppetserver_whitelist
+addcertwhitelist/templates/ca.conf.erb
+
+In the form:
+
+client-whitelist: [ <%= @console_client_certname %>, examplecert1.com, examplecert2.com ]
+
+Separate the certificate FQDNs with a comma and a following space.
+
+It is important NOT to remove the Ruby class variable: <%= @console_client_certname %>
+
+Copy the template file in addcertwhitelist/templates/ca.conf.erb to 
+addcertwhitelist/files/ca.conf.erb after editing.
+
+Apply the class using:
+
+puppet apply addcertwhitelist/tests/init.pp
+
+### Setup Requirements 
+
+Take the Puppet Master you wish to update out of its Load Balancer pool 
+before updaing the certificate whitelist.
+
+### Beginning with addcertwhitelist
 
 The very basic steps needed for a user to get the module up and running.
 
@@ -54,19 +75,38 @@ for upgrading, you may wish to include an additional section here: Upgrading
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+Firstly, add certificate FQDN names to the template:
+ 
+addcertwhitelist/templates/ca.conf.erb
+ 
+In the form:
+ 
+client-whitelist: [ <%= @console_client_certname %>, examplecert1.com, examplecert2.com ]
+ 
+Separate the certificate FQDNs with a comma and a following space.
+ 
+It is important NOT to remove the Ruby class variable: <%= @console_client_certname %>
+ 
+Copy the template file in addcertwhitelist/templates/ca.conf.erb to 
+addcertwhitelist/files/ca.conf.erb after editing.
+ 
+Apply the class using:
+ 
+puppet apply addcertwhitelist/tests/init.pp
+
+
+When the Puppetserver daemon has restarted, the Master may be checked
+by invoking an agent run with: puppet agent -t and then placed back in
+a load balancer pool.
+
 
 ## Reference
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+Class: addcertwhitelist/init.pp
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+This module tested with CentOS 6.5x64 / Puppet Enterprise 3.7.0
 
 ## Development
 
@@ -75,10 +115,6 @@ know what the ground rules for contributing are.
 
 ## Release Notes/Contributors/Etc **Optional**
 
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
+Version 0.1
 =======
-# Puppetserver_whitelist
-Add Certificates To PuppetServer Whitelist
->>>>>>> abdc5a3197336de43f44d4bb3927ace18105ea42
+
