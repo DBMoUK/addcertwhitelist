@@ -1,16 +1,18 @@
-class certwhitelist::revert {
+class certwhitelist::revert
+{
+  include certwhitelist
+  include certwhitelist::restart
 
-include certwhitelist::restart
-
-  $templatepath = '/opt/puppet/share/puppet/modules/puppet_enterprise/templates/master/puppetserver'
+  $templatepath             = $certwhitelist::templatepath 
+  $console_client_certname  = $certwhitelist::console_client_certname 
 
   file { "${templatepath}/ca.conf.erb":
-    ensure => file,
-    source => 'puppet:///modules/certwhitelist/ca.conf.original.erb',
-    owner  => 'pe-puppet',
-    group  => 'pe-puppet',
-    mode   => '444',
-    notify => Certwhitelist::Restart::Exec['restart-puppetserver'],
+    ensure  => file,
+    owner   => 'pe-puppet',
+    group   => 'pe-puppet',
+    mode    => '444',
+    content => template('certwhitelist/ca.conf.original.erb'),
+    notify  => Class['certwhitelist::restart'],
   }
 
 }
