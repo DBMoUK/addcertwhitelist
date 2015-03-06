@@ -1,12 +1,12 @@
 {
-  "name": "dbmouk-addcertwhitelist",
+  "name": "dbmouk-certwhitelist",
   "version": "0.1.0",
   "author": "David Bryant-Moore",
   "summary": "Add Additional Certificates To PuppetServer Whitelist",
   "license": "Apache 2.0",
-  "source": "https://github.com/DBMoUK/addcertwhitelist",
-  "project_page": "https://github.com/DBMoUK/addcertwhitelist",
-  "issues_url": "https://github.com/DBMoUK/addcertwhitelist/issues",
+  "source": "https://github.com/DBMoUK/certwhitelist",
+  "project_page": "https://github.com/DBMoUK/certwhitelist",
+  "issues_url": "https://github.com/DBMoUK/certwhitelist/issues",
   "dependencies": [
     {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
   ]

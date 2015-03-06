@@ -1,7 +1,7 @@
 require 'spec_helper'
-describe 'puppetserver_whitelist' do
+describe 'addcertwhitelist' do
 
   context 'with defaults for all parameters' do
-    it { should contain_class('puppetserver_whitelist') }
+    it { should contain_class('addcertwhitelist') }
   end
 end
