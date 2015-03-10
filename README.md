@@ -5,10 +5,10 @@
 
 1. [Overview](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with addcertwhitelist](#setup)
-    * [What addcertwhitelist affects](#what-addcertwhitelist-affects)
+3. [Setup - The basics of getting started with certwhitelist](#setup)
+    * [What addcertwhitelist affects](#what-certwhitelist-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with addcertwhitelist](#beginning-with-addcert_whitelist)
+    * [Beginning with addcertwhitelist](#beginning-with-certwhitelist)
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
@@ -50,7 +50,7 @@ before updating the certificate whitelist.
 
 Clone the repository:
 
-https://github.com/DBMoUK/addcertwhitelist.git
+https://github.com/DBMoUKcertwhitelist.git
 
 ## Usage
 
