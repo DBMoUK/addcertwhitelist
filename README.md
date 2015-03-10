@@ -93,7 +93,7 @@ puppet apply certwhitelist/tests/revert.pp
 This causes the template file /opt/puppet/share/puppet/modules/puppet_enterprise/templates/master/puppet_server/ca.conf.erb
 to be replaced with a copy of the original ca.conf.erb file prior to amendment by whitelisting.
 
-### IF YOU DO NOT APPLY: certwhitelist/tests/revert.pp PRIOR TO UPGRADING YOU *WILL* BREAK THE CONSOLDE IN PUPPET ENTERPRISE 3.7.2!
+### IF YOU DO NOT APPLY: certwhitelist/tests/revert.pp PRIOR TO UPGRADING YOU *WILL* BREAK THE CONSOLE IN PUPPET ENTERPRISE 3.7.2!
 
  
 
@@ -110,10 +110,6 @@ Class: certwhitelist/restart.pp # This class used internally to restart pe-puppe
 ## Limitations
 
 This module tested with CentOS 6.5x64 / Puppet Enterprise 3.7.0/3.7.2.
-
-## If you Upgrade Puppet Enterprise on your Puppet Master nodes, you must 
-## reapply this class post-upgrade to your Puppet Master nodes as the
-## source template will be overwritten via the upgrade.
 
 ## Development
 
