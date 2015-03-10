@@ -46,17 +46,22 @@ puppetserver/ca.conf.erb
 Take the Puppet Master you wish to update out of its Load Balancer pool 
 before updating the certificate whitelist.
 
-### Beginning with addcertwhitelist
+### Beginning with certwhitelist
 
 Clone the repository:
 
-https://github.com/DBMoUKcertwhitelist.git
+https://github.com/DBMoUK/certwhitelist.git
 
 ## Usage
 
+### THIS MODULE IS APPLICABLE TO PUPPET 3.7.0/3.7.1 - IF YOU USE THIS
+### MODULE YOU *MUST* REVERT THE WHITELIST CHANGES YOU MAKE PRIOR TO 
+### UPDATING TO PUPPET ENTERPRISE 3.7.2 DUE TO CHANGES IN THAT VERSION
+### OF PUPPET - PLEASE READ THE INSTRUCTIONS CAREFULLY!
+
 Firstly, add certificate FQDN names to the template:
  
-addcertwhitelist/files/ca.conf.erb
+certwhitelist/templates/ca.conf.whitelist.erb
  
 In the form:
  
@@ -69,7 +74,7 @@ It is important NOT to remove the Ruby class variable: <%= @console_client_certn
  
 Apply the class using:
  
-puppet apply addcertwhitelist/tests/init.pp
+puppet apply certwhitelist/tests/add.pp
 
 
 After the class has been applied to the 
@@ -78,13 +83,33 @@ confirm successful run and then re-add the Master to the Load Balancer
 pool, if one is in use.
 
 
+### VERY IMPORTANT NOTE:
+
+BEFORE UPGRADING TO PUPPET 3.7.2 - PLEASE ENSURE THAT ON ALL PUPPET MASTERS
+THAT WHITELISTING IS APPLIED TO - THE FOLLOWING CLASS IS APPLIED:
+
+puppet apply certwhitelist/tests/revert.pp
+
+This causes the template file /opt/puppet/share/puppet/modules/puppet_enterprise/templates/master/puppet_server/ca.conf.erb
+to be replaced with a copy of the original ca.conf.erb file prior to amendment by whitelisting.
+
+### IF YOU DO NOT APPLY: certwhitelist/tests/revert.pp PRIOR TO UPGRADING YOU *WILL* BREAK THE CONSOLDE IN PUPPET ENTERPRISE 3.7.2!
+
+ 
+
+
 ## Reference
 
-Class: addcertwhitelist/init.pp
+Class: certwhitelist/add.pp     # This class used to add cert FQDNs to whitelist.
+Class: certwhitelist/revert.pp  # This class used to revert changes prior to upgrade to Puppet Enterprise 3.7.2
+Class: certwhitelist/restart.pp # This class used internally to restart pe-puppetserver.
+
+
+
 
 ## Limitations
 
-This module tested with CentOS 6.5x64 / Puppet Enterprise 3.7.0
+This module tested with CentOS 6.5x64 / Puppet Enterprise 3.7.0/3.7.2.
 
 ## If you Upgrade Puppet Enterprise on your Puppet Master nodes, you must 
 ## reapply this class post-upgrade to your Puppet Master nodes as the
@@ -97,6 +122,6 @@ know what the ground rules for contributing are.
 
 ## Release Notes/Contributors/Etc **Optional**
 
-Version 0.1
+Version 1.0
 =======
 
